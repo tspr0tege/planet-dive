@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://bpv1gutjirolp"
+path="res://.godot/imported/Purple_Nebula_03-1024x1024.png-6078a6d752b0a63e242379600951e856.image"
+
+[deps]
+
+source_file="res://scenes/test-planet/Purple_Nebula_03-1024x1024.png"
+dest_files=["res://.godot/imported/Purple_Nebula_03-1024x1024.png-6078a6d752b0a63e242379600951e856.image"]
+
+[params]
+
