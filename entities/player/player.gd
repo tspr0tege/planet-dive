@@ -27,7 +27,7 @@ func _physics_process(delta: float) -> void:
 	#$"Debug Label".text = "Camera Offset: " + str(camera_offset)
 	#$"Debug Label".text = "projectile direction: " + str(projectile_direction)
 	#$"Debug Label".text = "Camera Offset: " + str(camera_offset)
-	camera.offset.x = lerp(camera.offset.x, floor(max_camera_offset * speed_percent), .1)
+	camera.offset.x = lerp(camera.offset.x, floor(max_camera_offset * speed_percent), .1) #create setting variable
 	
 	if direction.x < 0 and not $AnimatedSprite2D.flip_h:
 		$AnimatedSprite2D.flip_h = true
@@ -58,7 +58,7 @@ func _physics_process(delta: float) -> void:
 			apply_acceleration(delta)
 
 	#position.x = clamp(position.x, 0, screen_size.x)
-	#position.y = clamp(position.y, 0, screen_size.y)
+	position.y = clamp(position.y, 10, screen_size.y - 10)
 	
 	move_and_slide()
 
@@ -87,3 +87,8 @@ func apply_acceleration(delta: float) -> void:
 	current_speed += direction.x * acceleration * delta
 	current_speed = clamp(current_speed, -max_speed, max_speed)
 	
+
+
+func _on_pickup_area_area_entered(area: Area2D) -> void:
+	if area.is_in_group("Pickups"):
+		area.collect_to($".")

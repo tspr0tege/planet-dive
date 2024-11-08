@@ -1,0 +1,83 @@
+[gd_scene load_steps=12 format=3 uid="uid://bixtwii75tovs"]
+
+[ext_resource type="Script" path="res://common/scripts/pickups.gd" id="1_3vy0k"]
+[ext_resource type="Texture2D" uid="uid://cxo8fibneuobv" path="res://entities/drops/Sparkle.png" id="2_oevac"]
+[ext_resource type="AudioStream" uid="uid://dp8l766mksd7y" path="res://entities/drops/503459__matrixxx__powerup-02.wav" id="3_bd411"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ec6qx"]
+radius = 5.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8fhnj"]
+atlas = ExtResource("2_oevac")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_02hqj"]
+atlas = ExtResource("2_oevac")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_od21s"]
+atlas = ExtResource("2_oevac")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xe3ck"]
+atlas = ExtResource("2_oevac")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u74hm"]
+atlas = ExtResource("2_oevac")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vfgrd"]
+atlas = ExtResource("2_oevac")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h43s2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8fhnj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_02hqj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_od21s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xe3ck")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u74hm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vfgrd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[node name="Resource" type="Area2D" groups=["Pickups"]]
+position = Vector2(381, 344)
+script = ExtResource("1_3vy0k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ec6qx")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(0.380392, 0.890196, 1, 1)
+sprite_frames = SubResource("SpriteFrames_h43s2")
+autoplay = "default"
+
+[node name="Debug Label" type="Label" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 21.0
+text = "debug"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_bd411")
+volume_db = -25.0
+pitch_scale = 0.6
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
