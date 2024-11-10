@@ -57,7 +57,7 @@ animations = [{
 "speed": 6.0
 }]
 
-[node name="Resource" type="Area2D" groups=["Pickups"]]
+[node name="Resource" type="Area2D" groups=["Entities", "Pickups"]]
 position = Vector2(381, 344)
 script = ExtResource("1_3vy0k")
 

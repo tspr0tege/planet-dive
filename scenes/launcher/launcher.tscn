@@ -3,4 +3,7 @@
 [ext_resource type="Script" path="res://scenes/launcher/launcher.gd" id="1_i3oqd"]
 
 [node name="Launcher" type="Node"]
+process_mode = 3
 script = ExtResource("1_i3oqd")
+
+[node name="Overlay" type="CanvasLayer" parent="."]

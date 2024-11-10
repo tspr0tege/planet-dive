@@ -12,7 +12,7 @@ func _ready() -> void:
 	layer_array = [layer_1, layer_2]
 	orient_midpoint()
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	#$"../Player/Debug Label2".text = str("Past midpoint: " + str(player.position.x > current_layer_midpoint))
 	if player.global_position.x < layer_array[0].global_position.x:
 		#print("Player has entered the previous Zone")
@@ -25,10 +25,22 @@ func _process(delta: float) -> void:
 		#print("Player has passed the midpoint")
 		var move_map_by = (layer_array[0].get_used_rect().size.x * tile_size) * 2
 		if is_player_past_layer_midpoint:
+			var area_box = layer_array[1].get_node("Area2D")
+			var internal_entities = area_box.get_overlapping_bodies()
+			internal_entities.append_array(area_box.get_overlapping_areas())
 			layer_array[1].position.x += move_map_by
+			for entity in internal_entities:
+				if entity.is_in_group("Entities"):
+					entity.position.x += move_map_by
 			#print("Alternate map layer moved by +" + str(move_map_by))
 		else:
+			var area_box = layer_array[1].get_node("Area2D")
+			var internal_entities = area_box.get_overlapping_bodies()
+			internal_entities.append_array(area_box.get_overlapping_areas())
 			layer_array[1].position.x -= move_map_by
+			for entity in internal_entities:
+				if entity.is_in_group("Entities"):
+					entity.position.x -= move_map_by
 			#print("Alternate map layer moved by -" + str(move_map_by))
 	
 	if player.global_position.x > layer_array[0].global_position.x + (layer_array[0].get_used_rect().size.x * tile_size):

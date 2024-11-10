@@ -4,6 +4,8 @@ extends Node2D
 
 @export var mob_scene: PackedScene
 
+signal player_died
+
 func _on_StartTimer_timeout():
 	$MobTimer.start()
 	$ScoreTimer.start()
@@ -17,3 +19,7 @@ func _on_MobTimer_timeout():
 	new_mob.velocity = direction * 200
 	
 	add_child(new_mob)
+
+
+func _on_player_player_died() -> void:
+	player_died.emit()
