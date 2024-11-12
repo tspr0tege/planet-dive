@@ -1,12 +1,15 @@
 extends Area2D
 
+signal points_collected(amount)
 var fly_to_target: Node2D
 var point_value: int = 5
 
 func _ready() -> void:
-	var scalar = randf()
-	$AnimatedSprite2D.scale *= scalar
-	point_value = ceil(point_value * scalar)
+	connect("points_collected", GameData._handle_points_collected)
+	
+	var value = ceil(randf() * 5)
+	$AnimatedSprite2D.scale *= (value / 10) + .5
+	point_value = value
 	
 
 func _process(_delta: float) -> void:
@@ -17,7 +20,8 @@ func collect_to(entity) -> void:
 	fly_to_target = entity
 
 func collect_resource() -> void:
-	print(str(point_value) + " resource points collected")
+	#print(str(point_value) + " resource points collected")
+	points_collected.emit(point_value)
 	var sound = $AudioStreamPlayer.duplicate()
 	get_parent().add_child(sound)
 	sound.play()

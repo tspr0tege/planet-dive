@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="Planet Dive"
-run/main_scene="res://scenes/test-planet/planet.tscn"
+run/main_scene="res://scenes/launcher/launcher.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+GameData="*res://game_data.gd"
 
 [global_group]
 
