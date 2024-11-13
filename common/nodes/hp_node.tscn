@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://oyj1vdacrtxd"]
+
+[ext_resource type="Script" path="res://common/nodes/hp_node.gd" id="1_lderf"]
+
+[node name="HP Node" type="Node"]
+script = ExtResource("1_lderf")
+HP = 5

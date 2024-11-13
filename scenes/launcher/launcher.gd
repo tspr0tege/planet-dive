@@ -1,77 +1,109 @@
 extends Node
 
-var CURRENT_SCENE: String = "Main Menu"
+const main_scenes: Dictionary = {
+	"MAIN_MENU": {
+		"scene": "res://scenes/main-menu/main_menu.tscn",
+		"connections": {
+			"main_menu_button_pressed": "_on_main_menu_button_pressed"			
+		}
+	},
+	"TEST_PLANET": {
+		"scene": "res://scenes/test-planet/planet.tscn",
+		"connections": {
+			"player_died": "_on_player_death",
+			"player_paused": "_on_player_paused"
+		},
+	},
+	"HIGH_SCORES": {
+		"scene": "res://scenes/high-scores/high_scores.tscn",
+		"connections": {
+			
+		},
+	}
+}
+
+const overlay_scenes: Dictionary = {
+	"GAME_OVER": {
+		"scene": "res://scenes/game-over-overlay/game_over.tscn",
+		"connections": {
+			"game_over_menu_button_pressed": "_on_game_over_overlay_button_pressed"
+		},
+	},
+	"PAUSE_MENU": {
+		"scene": "res://ui/pause_menu.tscn",
+		"connections": {
+			"close_pause_menu": "_handle_game_unpaused"
+		},
+	}
+}
 
 func _ready() -> void:
-	load_current_scene()
-	GameData.connect("update_score", _on_update_score)
+	goto_scene("MAIN_MENU")
 	
-func load_current_scene() -> void:	
-	while get_child_count() > 1:
-		var target = get_child(-1)
-		remove_child(target)
-		target.queue_free()
+
+func goto_scene(scene_name: String) -> void:	
+	while $"Main Scene Loader".get_child_count() > 0:
+		var target = $"Main Scene Loader".get_child(-1)
+		$"Main Scene Loader".remove_child(target)
+		target.queue_free()	
 	
+	var NEW_SCENE: Node = load(main_scenes[scene_name].scene).instantiate()
+	for key in main_scenes[scene_name].connections:
+		NEW_SCENE.connect(key, self[main_scenes[scene_name].connections[key]])
 	
-	var NEW_SCENE: Node
-	
-	match CURRENT_SCENE:
-		"Main Menu":
-			NEW_SCENE = load("res://scenes/main-menu/main_menu.tscn").instantiate()
-			NEW_SCENE.connect("main_menu_button_pressed", _on_main_menu_button_pressed)
-			%"UI-container".visible = false
-		"Test Planet":
-			NEW_SCENE = load("res://scenes/test-planet/planet.tscn").instantiate()
-			NEW_SCENE.connect("player_died", _on_player_death)
-			%"UI-container".visible = true
-			%"UI-container/VBoxContainer/lives".text = "LIVES: " + str(GameData.player_lives)
-			
-		_:
-			print("Invalid scene name passed to load_scene function in Launcher. Scene name: %s" % CURRENT_SCENE)
-	
-	call_deferred("add_child", NEW_SCENE)
+	$"Main Scene Loader".call_deferred("add_child", NEW_SCENE)
 	
 	get_tree().paused = false
+	
+
+func load_overlay(scene_name: String) -> void:
+	var NEW_OVERLAY: Node = load(overlay_scenes[scene_name].scene).instantiate()
+	for key in overlay_scenes[scene_name].connections:
+		NEW_OVERLAY.connect(key, self[overlay_scenes[scene_name].connections[key]])
+	$Overlay.add_child(NEW_OVERLAY)
+	
 
 func _on_main_menu_button_pressed(button_name) -> void:
 	match button_name:
 		"Start Game":
 			print("Start game signal received by Launcher")
-			CURRENT_SCENE = "Test Planet"
-			load_current_scene()
+			goto_scene("TEST_PLANET")
 		"Quit":
 			print("Quit signal received by launcher")
+			get_tree().quit()
 		_:
 			print("No match case found in _on_main_menu_button_pressed for button_name: " + str(button_name))
 
+
 func _on_player_death() -> void:
-	print("Player Death signal received by Launcher")
-	get_tree().paused = true
-	
 	if GameData.player_lives > 0:
-		GameData.player_lives -= 1
-		load_current_scene()
-	else:		
-		var GAME_OVER_OVERLAY = load("res://scenes/game-over-overlay/game_over.tscn").instantiate()
-		GAME_OVER_OVERLAY.connect("game_over_menu_button_pressed", _on_game_over_overlay_button_pressed)
-		$Overlay.add_child(GAME_OVER_OVERLAY)
+		goto_scene("TEST_PLANET")
+	else:
+		load_overlay("GAME_OVER")
+
 
 func _on_game_over_overlay_button_pressed(button_name) -> void:
-	
-	match button_name:
-		"restart":
-			print("Restart game signal recieved by Launcher")
-		"quit":
-			print("Quit game signal received by Launcher")
-			CURRENT_SCENE = "Main Menu"
-		_:
-			print("Undefined signal emitted from Game Over overlay, received by Launcher. Received button name: %s from signal" % button_name)
-	
 	GameData.player_score = 0
 	GameData.player_lives = 3
-	%"UI-container/VBoxContainer/score".text = "SCORE: 0"
 	
-	load_current_scene()
+	if button_name == "restart":
+		print("Restart game signal recieved by Launcher")
+		goto_scene("TEST_PLANET")
+	elif button_name == "quit": 
+		print("Quit game signal received by Launcher")
+		goto_scene("MAIN_MENU")
+	else:
+		print("Unrecognizable value received in button_name of game over button pressed. Received: " + str(button_name))
+		
 
-func _on_update_score() -> void:
-	%"UI-container/VBoxContainer/score".text = "SCORE: " + str(GameData.player_score)
+func _on_player_paused() -> void:
+	get_tree().paused = true
+	print("Pause signal received at the Launcher")
+	load_overlay("PAUSE_MENU")
+
+
+func _handle_game_unpaused(action) -> void:
+	get_tree().paused = false
+	if action == "Quit":
+		goto_scene("MAIN_MENU")
+	

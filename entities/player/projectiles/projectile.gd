@@ -1,8 +1,11 @@
 extends Area2D
 
-@export var SPEED: float = 1000
+@export var SPEED: float = 1200
 #@onready var audio_stream_player_2d: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
+func _ready() -> void:
+	AudioStreamBus.queue_sfx($Pew, .05)
+	
 func _physics_process(delta: float) -> void:
 	position.x += SPEED * delta
 
@@ -13,11 +16,9 @@ func _on_body_entered(body: Node2D) -> void:
 	if body.name =="Player":
 		return
 	
-	if body.is_in_group("Weiners"):
-		if body.has_method("destroy"):
-			body.destroy()
-		else:
-			print(str(body.name) + " has no destroy function")
-			body.queue_free()
+	if body.has_node("HP Node"):
+		body.get_node("HP Node").change_HP_by(-1)
+	else:
+		print("Body %s has no HP Node." % body.name)
 	
 	queue_free()

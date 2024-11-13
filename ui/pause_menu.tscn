@@ -1,0 +1,121 @@
+[gd_scene load_steps=2 format=3 uid="uid://ckhq0sr64tng"]
+
+[ext_resource type="Script" path="res://ui/pause_menu.gd" id="1_xflds"]
+
+[node name="Pause Menu" type="Control" node_paths=PackedStringArray("camera_speed_slider", "camera_speed_display")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xflds")
+camera_speed_slider = NodePath("MarginContainer/VBoxContainer/CenterContainer/HBoxContainer/Camera Speed")
+camera_speed_display = NodePath("MarginContainer/VBoxContainer/CenterContainer/HBoxContainer/PanelContainer/Camera Speed Text")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.780392)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/CenterContainer"]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/CenterContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Camera Compensation Speed"
+
+[node name="Camera Speed" type="HSlider" parent="MarginContainer/VBoxContainer/CenterContainer/HBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 1
+focus_neighbor_right = NodePath("../../../HBoxContainer/Resume Button")
+focus_neighbor_bottom = NodePath("../../../HBoxContainer/Resume Button")
+focus_next = NodePath("../../../HBoxContainer/Resume Button")
+min_value = 1.0
+max_value = 10.0
+step = 0.1
+value = 1.0
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/CenterContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Camera Speed Text" type="Label" parent="MarginContainer/VBoxContainer/CenterContainer/HBoxContainer/PanelContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "100
+"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 20
+
+[node name="Resume Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+focus_neighbor_left = NodePath("../../CenterContainer/HBoxContainer/Camera Speed")
+focus_neighbor_top = NodePath("../../CenterContainer/HBoxContainer/Camera Speed")
+focus_neighbor_right = NodePath("../Quit Button")
+focus_neighbor_bottom = NodePath("../Quit Button")
+focus_next = NodePath("../Quit Button")
+focus_previous = NodePath("../../CenterContainer/HBoxContainer/Camera Speed")
+text = "RESUME GAME"
+
+[node name="Quit Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../Resume Button")
+focus_neighbor_top = NodePath("../Resume Button")
+focus_previous = NodePath("../Resume Button")
+text = "QUIT GAME"
+
+[node name="First Input Delay" type="Timer" parent="."]
+wait_time = 0.05
+one_shot = true
+autostart = true
+
+[connection signal="drag_ended" from="MarginContainer/VBoxContainer/CenterContainer/HBoxContainer/Camera Speed" to="." method="_on_h_slider_drag_ended"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/CenterContainer/HBoxContainer/Camera Speed" to="." method="_on_camera_speed_value_changed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Resume Button" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Quit Button" to="." method="_on_quit_pressed"]
+[connection signal="timeout" from="First Input Delay" to="." method="_on_first_input_delay_timeout"]

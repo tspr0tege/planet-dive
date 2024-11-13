@@ -5,6 +5,7 @@ extends Node2D
 @export var mob_scene: PackedScene
 
 signal player_died
+signal player_paused
 
 func _on_StartTimer_timeout():
 	$MobTimer.start()
@@ -23,3 +24,8 @@ func _on_MobTimer_timeout():
 
 func _on_player_player_died() -> void:
 	player_died.emit()
+
+
+func _on_player_paused() -> void:
+	print("Player pause received on a Planetary scale!")
+	player_paused.emit()

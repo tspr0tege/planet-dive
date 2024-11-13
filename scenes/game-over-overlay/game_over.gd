@@ -3,7 +3,7 @@ extends Control
 signal game_over_menu_button_pressed(button_name)
 
 func _ready() -> void:
-	%Restart.grab_focus()
+	set_process_input(false)
 
 
 func _on_restart_pressed() -> void:
@@ -16,3 +16,8 @@ func _on_quit_pressed() -> void:
 	game_over_menu_button_pressed.emit("quit")
 	print("I QUIT!")
 	queue_free()
+
+
+func _on_first_input_delay_timeout() -> void:
+	set_process_input(true)
+	%Restart.grab_focus()

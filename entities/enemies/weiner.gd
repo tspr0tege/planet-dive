@@ -1,31 +1,33 @@
 extends CharacterBody2D
 
+const DEATHNODE = preload("res://entities/enemies/deathnode.tscn")
+const RESOURCE_DROP = preload("res://entities/drops/resource.tscn")
+
+
 func _process(_delta: float) -> void:
 	move_and_slide()
 
+
 func _on_timer_timeout() -> void:
 	queue_free()
-	
-func destroy() -> void:
+
+
+func self_destruct() -> void:
 	var parent = get_parent()
-	var sfx = $Splode.duplicate()
-	var fireball = $GPUParticles2D2.duplicate()
-	var ship_dust = $GPUParticles2D.duplicate()
-	var resource_drop = load("res://entities/drops/resource.tscn").instantiate()
-	resource_drop.position = self.global_position
-	parent.call_deferred("add_child", resource_drop)
-	sfx.position = self.global_position
-	fireball.position = self.global_position
-	ship_dust.position = self.global_position
-	parent.add_child(sfx)
-	parent.add_child(fireball)
-	parent.add_child(ship_dust)
-	sfx.play()
-	fireball.emitting = true
-	ship_dust.emitting = true
+	var explosion = DEATHNODE.instantiate()
+	explosion.position = self.global_position
+	parent.call_deferred("add_child", explosion)
 	queue_free()
 
 
 func _on_damage_area_body_entered(body: Node2D) -> void:
-	if body.name == "Player":
-		body.get_node("HP Node").change_HP_by(-1)
+	if body != self:
+		self_destruct()
+
+
+func _on_zero_hp() -> void:
+	var parent = get_parent()
+	var new_resource_drop = RESOURCE_DROP.instantiate()
+	new_resource_drop.position = self.global_position
+	parent.call_deferred("add_child", new_resource_drop)
+	self_destruct()

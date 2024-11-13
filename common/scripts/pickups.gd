@@ -1,6 +1,9 @@
 extends Area2D
 
 signal points_collected(amount)
+
+const MAX_SPEED: float = 10
+var CURRENT_SPEED: float = 0
 var fly_to_target: Node2D
 var point_value: int = 5
 
@@ -12,9 +15,11 @@ func _ready() -> void:
 	point_value = value
 	
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if is_instance_valid(fly_to_target):
-		position = lerp(self.global_position, fly_to_target.global_position, .1)
+		CURRENT_SPEED = lerp(CURRENT_SPEED, MAX_SPEED, delta * .1)
+		#position = lerp(self.global_position, fly_to_target.global_position, .1)
+		position += (fly_to_target.global_position - self.global_position) * CURRENT_SPEED
 
 func collect_to(entity) -> void:
 	fly_to_target = entity

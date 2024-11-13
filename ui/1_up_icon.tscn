@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bkx13qx4so0xp"]
+
+[ext_resource type="Texture2D" uid="uid://dmcjyhbij1v8q" path="res://ui/DarkGrey-1up.png" id="1_jb13d"]
+
+[node name="1up icon" type="TextureRect"]
+texture = ExtResource("1_jb13d")

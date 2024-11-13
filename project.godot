@@ -15,9 +15,14 @@ run/main_scene="res://scenes/launcher/launcher.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
 config/icon="res://icon.svg"
 
+[audio]
+
+general/2d_panning_strength=1.0
+
 [autoload]
 
 GameData="*res://game_data.gd"
+AudioStreamBus="*res://audio_stream_bus.gd"
 
 [global_group]
 

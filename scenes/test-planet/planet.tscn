@@ -897,7 +897,6 @@ sources/1 = SubResource("TileSetAtlasSource_x37i7")
 size = Vector2(2856, 714)
 
 [node name="Planet Defender" type="Node2D"]
-process_mode = 1
 script = ExtResource("1_cgr17")
 mob_scene = ExtResource("2_77c5b")
 
@@ -922,6 +921,7 @@ wait_time = 2.0
 autostart = true
 
 [node name="Map" type="Node2D" parent="."]
+modulate = Color(0.74978, 0.74978, 0.74978, 1)
 script = ExtResource("4_6c4qx")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="Map"]
@@ -950,4 +950,5 @@ shape = SubResource("RectangleShape2D_2j8s3")
 debug_color = Color(0.65098, 1, 1, 0.282353)
 
 [connection signal="player_died" from="Player" to="." method="_on_player_player_died"]
+[connection signal="player_paused" from="Player" to="." method="_on_player_paused"]
 [connection signal="timeout" from="Mob Timer" to="." method="_on_MobTimer_timeout"]
