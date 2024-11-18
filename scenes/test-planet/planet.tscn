@@ -1,16 +1,17 @@
-[gd_scene load_steps=10 format=4 uid="uid://bcbsj0o7gap4q"]
+[gd_scene load_steps=11 format=4 uid="uid://bcbsj0o7gap4q"]
 
 [ext_resource type="Script" path="res://scenes/test-planet/test-planet.gd" id="1_cgr17"]
 [ext_resource type="PackedScene" uid="uid://due60y3nm8vku" path="res://entities/player/player.tscn" id="1_nhccl"]
 [ext_resource type="PackedScene" uid="uid://c6rstg42mhyll" path="res://entities/enemies/weiner.tscn" id="2_77c5b"]
+[ext_resource type="PackedScene" uid="uid://v7urk26k3rvc" path="res://entities/enemies/ground-turret/ground_turret.tscn" id="3_llulp"]
 [ext_resource type="Script" path="res://scenes/test-planet/map.gd" id="4_6c4qx"]
 [ext_resource type="Texture2D" uid="uid://dteujfmf05744" path="res://common/sprites/tilemap_packed.png" id="4_hdi1c"]
 
 [sub_resource type="Curve2D" id="Curve2D_orsmg"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -800, 300, 0, 0, 0, 0, -800, -500, 0, 0, 0, 0, 800, -500, 0, 0, 0, 0, 800, 300)
+"points": PackedVector2Array(0, 0, 0, 0, -800, -500, 0, 0, 0, 0, 800, -500)
 }
-point_count = 4
+point_count = 2
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x37i7"]
 texture = ExtResource("4_hdi1c")
@@ -304,18 +305,18 @@ texture_region_size = Vector2i(21, 21)
 29:9/0 = 0
 0:10/0 = 0
 1:10/0 = 0
-1:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(10.5, 10.5, -10.5, 10.5, -10.5, -10.5, 10.5, -10.5)
+1:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(10.5, -7.5, -10.5, -7.5, -10.5, 10.5, 10.5, 10.5)
 2:10/0 = 0
-2:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(10.5, 10.5, -10.5, 10.5, -10.5, -10.5, 10.5, -10.5)
+2:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(10.5, -7.5, -10.5, -7.5, -10.5, 10.5, 10.5, 10.5)
 3:10/0 = 0
-3:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(10.5, 10.5, -10.5, 10.5, -10.5, -10.5, 10.5, -10.5)
+3:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(10.5, -7.5, -10.5, -7.5, -10.5, 10.5, 10.5, 10.5)
 4:10/0 = 0
-4:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(10.5, 10.5, -10.5, 10.5, -10.5, -10.5, 10.5, -10.5)
+4:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(10.5, -7.5, -10.5, -7.5, -10.5, 10.5, 10.5, 10.5)
 5:10/0 = 0
 6:10/0 = 0
-6:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(10.5, 10.5, -10.5, 10.5, 10.5, -10.5)
+6:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(10.5, -7.5, 10.5, 10.5, -7.5, 10.5)
 7:10/0 = 0
-7:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10.5, 10.5, 10.5, 10.5, -10.5, -10.5)
+7:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10.5, -7.5, -10.5, 10.5, 7.5, 10.5)
 8:10/0 = 0
 9:10/0 = 0
 10:10/0 = 0
@@ -346,9 +347,9 @@ texture_region_size = Vector2i(21, 21)
 4:11/0/physics_layer_0/polygon_0/points = PackedVector2Array(10.5, 10.5, -10.5, 10.5, -10.5, -10.5, 10.5, -10.5)
 5:11/0 = 0
 6:11/0 = 0
-6:11/0/physics_layer_0/polygon_0/points = PackedVector2Array(10.5, 10.5, -10.5, 10.5, -10.5, -10.5, 10.5, -10.5)
+6:11/0/physics_layer_0/polygon_0/points = PackedVector2Array(10.5, -10.5, -7.5, -10.5, -10.5, -7.5, -10.5, 10.5, 10.5, 10.5)
 7:11/0 = 0
-7:11/0/physics_layer_0/polygon_0/points = PackedVector2Array(10.5, 10.5, -10.5, 10.5, -10.5, -10.5, 10.5, -10.5)
+7:11/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10.5, -10.5, 7.5, -10.5, 10.5, -7.5, 10.5, 10.5, -10.5, 10.5)
 8:11/0 = 0
 9:11/0 = 0
 10:11/0 = 0
@@ -898,7 +899,8 @@ size = Vector2(2856, 714)
 
 [node name="Planet Defender" type="Node2D"]
 script = ExtResource("1_cgr17")
-mob_scene = ExtResource("2_77c5b")
+space_mine = ExtResource("2_77c5b")
+ground_turret = ExtResource("3_llulp")
 
 [node name="Player" parent="." instance=ExtResource("1_nhccl")]
 
@@ -906,8 +908,7 @@ mob_scene = ExtResource("2_77c5b")
 curve = SubResource("Curve2D_orsmg")
 
 [node name="Spawn Point" type="PathFollow2D" parent="Player/Spawn Rim"]
-position = Vector2(-800, 300)
-rotation = -1.5708
+position = Vector2(-800, -500)
 
 [node name="Debug Label2" type="Label" parent="Player"]
 visible = false

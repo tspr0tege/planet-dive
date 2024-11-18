@@ -30,7 +30,7 @@ func _physics_process(delta: float) -> void:
 	velocity = Vector2(current_speed, direction.y * vertical_speed)
 	
 	var speed_percent = floor((current_speed / max_speed) * 100) / 100
-	camera.offset.x = lerp(camera.offset.x, floor((max_camera_offset / camera.zoom.x) * speed_percent), GameData.camera_speed / 100) #create setting variable
+	camera.offset.x = lerp(camera.offset.x, floor((max_camera_offset / camera.zoom.x) * speed_percent), GameData.camera_speed / 100)
 	
 	if direction.x < 0 and not $AnimatedSprite2D.flip_h:
 		$AnimatedSprite2D.flip_h = true
