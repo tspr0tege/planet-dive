@@ -16,13 +16,9 @@ func _physics_process(delta: float) -> void:
 		grid_position.x -= (fmod(grid_position.x,  21) + 10.5)
 		var query = PhysicsRayQueryParameters2D.create(grid_position, grid_position + Vector2(0 , 1600))
 		var ray_cast_result = get_world_2d().direct_space_state.intersect_ray(query)
-		#print(ray_cast_result)
 		if ray_cast_result.collider == $Map/TileMapLayer or ray_cast_result.collider == $Map/TileMapLayer2:
 			var new_turret = ground_turret.instantiate()
 			new_turret.position = ray_cast_result.position
-			#print("Normal: " + str(ray_cast_result.normal))
-			#print("Angle to: " + str(Vector2.ZERO.angle_to(ray_cast_result.normal)))
-			#print("Radian to degree: " + str(round(rad_to_deg(Vector2.UP.angle_to(ray_cast_result.normal)))))
 			new_turret.rotation = Vector2.UP.angle_to(ray_cast_result.normal)
 			add_child(new_turret)
 		else:
@@ -30,7 +26,7 @@ func _physics_process(delta: float) -> void:
 		spawn_turret = false
 
 func _on_MobTimer_timeout():
-	if get_tree().get_nodes_in_group("Weiners").size() < 10:
+	if get_tree().get_nodes_in_group("Weiners").size() < 5:
 		spawn_point.progress_ratio = round(randf())
 		spawn_turret = true
 	

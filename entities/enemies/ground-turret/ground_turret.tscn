@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://v7urk26k3rvc"]
+[gd_scene load_steps=7 format=3 uid="uid://v7urk26k3rvc"]
 
-[ext_resource type="Texture2D" uid="uid://df8u7hb78lpry" path="res://entities/enemies/ground-turret/Enemies-9-2.png" id="1_0adn8"]
 [ext_resource type="Script" path="res://entities/enemies/ground-turret/ground_turret.gd" id="1_603qq"]
 [ext_resource type="PackedScene" uid="uid://oyj1vdacrtxd" path="res://common/nodes/hp_node.tscn" id="2_06bke"]
+[ext_resource type="Script" path="res://entities/enemies/ground-turret/cannon.gd" id="3_ss5lq"]
+[ext_resource type="Texture2D" uid="uid://dqdygyxtsvdnc" path="res://entities/enemies/ground-turret/Enemies-9c-2.png" id="4_cfaqy"]
+[ext_resource type="Texture2D" uid="uid://chbss2iajufwy" path="res://entities/enemies/ground-turret/Enemies-9c-1.png" id="5_6ln1u"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7odh0"]
-size = Vector2(26, 16)
+size = Vector2(26, 17)
 
 [node name="Ground Turret" type="StaticBody2D" groups=["Entities", "Weiners"]]
 script = ExtResource("1_603qq")
@@ -14,11 +16,50 @@ script = ExtResource("1_603qq")
 HP = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -9)
+position = Vector2(0, -8.5)
 shape = SubResource("RectangleShape2D_7odh0")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_0adn8")
+[node name="Cannon" type="Node2D" parent="."]
+position = Vector2(0, -11)
+script = ExtResource("3_ss5lq")
+
+[node name="Barrel Sprite" type="Sprite2D" parent="Cannon"]
+texture = ExtResource("4_cfaqy")
+offset = Vector2(0, 2)
+flip_h = true
+
+[node name="Barrel Exit" type="Node2D" parent="Cannon"]
+position = Vector2(17, 0)
+
+[node name="Body Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("5_6ln1u")
 offset = Vector2(0, -10)
 
+[node name="Deathnode" type="Node2D" parent="."]
+visible = false
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Deathnode"]
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="Deathnode"]
+
+[node name="Debug Label" type="Label" parent="."]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -18.0
+offset_top = -45.0
+offset_right = 18.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "00"
+
+[node name="Shot Timer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
 [connection signal="zero_hp" from="HP Node" to="." method="_on_hp_node_zero_hp"]
+[connection signal="timeout" from="Shot Timer" to="." method="_on_shot_timer_timeout"]
