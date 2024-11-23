@@ -1,14 +1,15 @@
 extends TileMapLayer
 
-@onready var area_2d: Area2D = $Area2D
+var inner_entities: Array = []
 
-func _ready() -> void:
-	var allEntities = area_2d.get_overlapping_bodies()
-	print(str(allEntities.size()))
 
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	var allEntities = area_2d.get_overlapping_bodies()
-	for entity in allEntities:
-		if entity.is_in_group("Entities"):
-			print(str(entity.name))
-	pass # Replace with function body.
+func _add_entity(object) -> void:
+	print(str(object.name) + " detected")
+	if object.is_in_group("Entities"):
+		inner_entities.push_back(object)
+
+
+func _remove_entity(object) -> void:
+	if inner_entities.has(object):
+		var index = inner_entities.find(object)
+		inner_entities.pop_at(index)

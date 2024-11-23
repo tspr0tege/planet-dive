@@ -1,12 +1,21 @@
-extends StaticBody2D
+extends CharacterBody2D
 
 @onready var player = get_parent().find_child("Player")
+const DEATHNODE = preload("res://entities/enemies/ground-turret/deathnode.tscn")
+const RESOURCE = preload("res://entities/drops/resource.tscn")
 
 var player_visible: bool = false
 
 
 func _on_hp_node_zero_hp() -> void:
-	print("Oh shit, I'm dead!")
+	var planet = get_parent()
+	var death_explosion = DEATHNODE.instantiate()
+	var new_drop = RESOURCE.instantiate()
+	death_explosion.position = global_position
+	new_drop.position = global_position
+	planet.call_deferred("add_child", death_explosion)
+	planet.call_deferred("add_child", new_drop)
+	queue_free()
 
 
 func _process(_delta) -> void:

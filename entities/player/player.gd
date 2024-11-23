@@ -2,8 +2,8 @@ extends CharacterBody2D
 
 @onready var screen_size = get_viewport_rect().size
 @onready var max_camera_offset = (screen_size.x / 2) * .75
-@onready var camera: Camera2D = $Camera2D
 
+@export var camera: Camera2D
 @export var max_speed: float = 600
 @export var acceleration: float = 1000
 @export var idle_deceleration: float = 50

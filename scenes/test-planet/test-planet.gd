@@ -1,7 +1,6 @@
 extends Node2D
 
-@onready var spawn_point: PathFollow2D = $"Player/Spawn Rim/Spawn Point"
-
+@export var spawn_point: PathFollow2D
 @export var space_mine: PackedScene
 @export var ground_turret: PackedScene
 

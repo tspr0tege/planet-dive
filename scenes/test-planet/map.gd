@@ -13,45 +13,35 @@ func _ready() -> void:
 	orient_midpoint()
 	
 func _process(_delta: float) -> void:
-	#$"../Player/Debug Label2".text = str("Past midpoint: " + str(player.position.x > current_layer_midpoint))
+	# When Player enters the previous zone
 	if player.global_position.x < layer_array[0].global_position.x:
-		#print("Player has entered the previous Zone")
-		is_player_past_layer_midpoint = !is_player_past_layer_midpoint
+		is_player_past_layer_midpoint = true
 		layer_array.reverse()
 		orient_midpoint()
 	
+	# When Player crosses the midpoint
 	if (player.global_position.x > current_layer_midpoint) != is_player_past_layer_midpoint:
 		is_player_past_layer_midpoint = !is_player_past_layer_midpoint
-		#print("Player has passed the midpoint")
+		
 		var move_map_by = (layer_array[0].get_used_rect().size.x * tile_size) * 2
-		if is_player_past_layer_midpoint:
-			var area_box = layer_array[1].get_node("Area2D")
-			var internal_entities = area_box.get_overlapping_bodies()
-			internal_entities.append_array(area_box.get_overlapping_areas())
-			layer_array[1].position.x += move_map_by
-			for entity in internal_entities:
-				if entity.is_in_group("Entities"):
-					entity.position.x += move_map_by
-			#print("Alternate map layer moved by +" + str(move_map_by))
-		else:
-			var area_box = layer_array[1].get_node("Area2D")
-			var internal_entities = area_box.get_overlapping_bodies()
-			internal_entities.append_array(area_box.get_overlapping_areas())
-			layer_array[1].position.x -= move_map_by
-			for entity in internal_entities:
-				if entity.is_in_group("Entities"):
-					entity.position.x -= move_map_by
-			#print("Alternate map layer moved by -" + str(move_map_by))
+		var direction = 1 if is_player_past_layer_midpoint else -1
+		var area_box = layer_array[1].get_node("Area2D")
+		var inner_entities = area_box.get_overlapping_bodies()
+		inner_entities.append_array(area_box.get_overlapping_areas())
+		
+		layer_array[1].position.x += move_map_by * direction
+		for entity in inner_entities:
+			if entity.is_in_group("Entities"):
+				entity.position.x += move_map_by * direction
+		
 	
+	# When Player enters the next zone
 	if player.global_position.x > layer_array[0].global_position.x + (layer_array[0].get_used_rect().size.x * tile_size):
-		#print("Player has entered the next Zone")	
-		is_player_past_layer_midpoint = !is_player_past_layer_midpoint	
+		is_player_past_layer_midpoint = false	
 		layer_array.reverse()
 		orient_midpoint()
 
 func orient_midpoint() -> void:
 	tile_size = layer_array[0].rendering_quadrant_size
 	current_layer_midpoint = ((layer_array[0].get_used_rect().size.x * tile_size) / 2) + layer_array[0].global_position.x
-	#print("Layer midpoint: " + str(current_layer_midpoint))
-	#print("Tile size: " + str(tile_size))
-	#print("Layer width: " + str(layer_array[0].get_used_rect().size.x * tile_size))
+	

@@ -10,3 +10,16 @@ var high_scores: Array[Dictionary]
 func _handle_points_collected(points) -> void:
 	player_score += points
 	update_score.emit()
+
+func _has_new_high_score() -> bool:
+	if high_scores.size() < 10 or player_score > high_scores[9].score:
+		return true
+	else:
+		return false
+
+func add_new_high_score(player_name: String) -> void:
+	for position in high_scores.size():
+		if high_scores[position].score == null or player_score > high_scores[position].score:
+			high_scores.insert(position, {"player_name": player_name, "score": player_score})
+			break
+		

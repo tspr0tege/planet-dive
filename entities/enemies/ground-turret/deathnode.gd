@@ -1,0 +1,9 @@
+extends Node2D
+
+func _ready() -> void:
+	$Shrapnel.emitting = true
+	$Explosion.emitting = true
+	AudioStreamBus.queue_sfx($AudioStreamPlayer2D, .02)
+
+func _on_explosion_finished() -> void:
+	queue_free()
