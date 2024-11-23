@@ -9,7 +9,7 @@ var spawn_turret: bool = false
 signal player_died
 signal player_paused
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if spawn_turret:
 		var grid_position = spawn_point.global_position
 		grid_position.x -= (fmod(grid_position.x,  21) + 10.5)

@@ -17,7 +17,7 @@ const main_scenes: Dictionary = {
 	"HIGH_SCORES": {
 		"scene": "res://scenes/high-scores/high_scores.tscn",
 		"connections": {
-			
+			"exit_high_score": "_ready"
 		},
 	}
 }
@@ -68,6 +68,9 @@ func _on_main_menu_button_pressed(button_name) -> void:
 		"Start Game":
 			print("Start game signal received by Launcher")
 			goto_scene("TEST_PLANET")
+		"High Scores":
+			print("High Scores signal received in launcher")
+			goto_scene("HIGH_SCORES")
 		"Quit":
 			print("Quit signal received by launcher")
 			get_tree().quit()

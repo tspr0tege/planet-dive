@@ -1,5 +1,7 @@
 extends Control
 
+signal exit_high_score
+
 const TOP_SCORE_ROW = preload("res://scenes/high-scores/top_score_row.tscn")
 
 
@@ -10,4 +12,8 @@ func _ready() -> void:
 		if GameData.high_scores.size() > n:
 			new_row.get_node("Name").text = str(GameData.high_scores[n].name)
 			new_row.get_node("Score").text = str(GameData.high_scores[n].score)
-		$CenterContainer/VBoxContainer.add_child(new_row)
+		$CenterContainer/VBoxContainer/Header.add_sibling(new_row)
+
+
+func _on_exit_pressed() -> void:
+	exit_high_score.emit()

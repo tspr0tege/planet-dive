@@ -28,7 +28,8 @@ func _on_input_text_submitted(new_text: String) -> void:
 		return
 	
 	GameData.add_new_high_score(new_text)
-	%"High Score Entry Box".visible = false
+	%"High Score Entry Box/VBoxContainer/High Score Input".visible = false
+	%"High Score Entry Box/VBoxContainer/Label".text = "New High Score Submitted!"
 	%Restart.grab_focus()
 
 

@@ -1,8 +1,7 @@
-[gd_scene load_steps=66 format=3 uid="uid://dv45ibpt71mpj"]
+[gd_scene load_steps=65 format=3 uid="uid://dv45ibpt71mpj"]
 
 [ext_resource type="Script" path="res://scenes/main-menu/main_menu.gd" id="1_o7msg"]
 [ext_resource type="Texture2D" uid="uid://cunvcle84bhl6" path="res://common/backgrounds/Starfield_05-1024x1024.png" id="1_srqwa"]
-[ext_resource type="Script" path="res://common/scripts/default_focus.gd" id="3_akuol"]
 [ext_resource type="Texture2D" uid="uid://dubykvd1so00g" path="res://scenes/main-menu/spritesheet 01.png" id="4_hhcr3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4dvxi"]
@@ -461,6 +460,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(263, 175)
+scale = Vector2(6, 6)
+sprite_frames = SubResource("SpriteFrames_tyytp")
+autoplay = "default"
+frame_progress = 0.584603
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
@@ -474,8 +480,12 @@ offset_right = 63.0
 offset_bottom = 42.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 20
 
-[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
+[node name="Control2" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/Control2"]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_colors/default_color = Color(1, 1, 1, 1)
@@ -487,7 +497,7 @@ fit_content = true
 scroll_active = false
 autowrap_mode = 0
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/Control2"]
 layout_mode = 2
 text = "(Working Title)"
 horizontal_alignment = 1
@@ -498,31 +508,28 @@ layout_mode = 2
 
 [node name="Start Game" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-focus_neighbor_left = NodePath("../Quit")
 focus_neighbor_top = NodePath("../Quit")
-focus_neighbor_right = NodePath("../Quit")
-focus_neighbor_bottom = NodePath("../Quit")
-focus_next = NodePath("../Quit")
+focus_neighbor_bottom = NodePath("../High Scores")
+focus_next = NodePath("../High Scores")
 focus_previous = NodePath("../Quit")
 text = "START GAME"
-script = ExtResource("3_akuol")
+
+[node name="High Scores" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../Start Game")
+focus_neighbor_bottom = NodePath("../Quit")
+focus_next = NodePath("../Quit")
+focus_previous = NodePath("../Start Game")
+text = "VIEW HIGH SCORES"
 
 [node name="Quit" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-focus_neighbor_left = NodePath("../Start Game")
-focus_neighbor_top = NodePath("../Start Game")
-focus_neighbor_right = NodePath("../Start Game")
+focus_neighbor_top = NodePath("../High Scores")
 focus_neighbor_bottom = NodePath("../Start Game")
 focus_next = NodePath("../Start Game")
-focus_previous = NodePath("../Start Game")
+focus_previous = NodePath("../High Scores")
 text = "QUIT"
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(263, 175)
-scale = Vector2(6, 6)
-sprite_frames = SubResource("SpriteFrames_tyytp")
-autoplay = "default"
-frame_progress = 0.584603
-
 [connection signal="button_up" from="VBoxContainer/Start Game" to="." method="_on_startGame_button_up"]
+[connection signal="pressed" from="VBoxContainer/High Scores" to="." method="_on_high_scores_pressed"]
 [connection signal="button_up" from="VBoxContainer/Quit" to="." method="_on_quit_button_up"]
