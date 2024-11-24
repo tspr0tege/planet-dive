@@ -18,8 +18,10 @@ func _has_new_high_score() -> bool:
 		return false
 
 func add_new_high_score(player_name: String) -> void:
-	for position in high_scores.size():
-		if high_scores[position].score == null or player_score > high_scores[position].score:
-			high_scores.insert(position, {"player_name": player_name, "score": player_score})
+	
+	for position in 10:
+		if position >= high_scores.size() or player_score > high_scores[position].score:
+			high_scores.insert(position, {"name": player_name, "score": player_score})
+			print("Inserting %s and %s in position %s" % [player_name, player_score, position])
 			break
 		
