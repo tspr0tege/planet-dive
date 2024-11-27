@@ -13,6 +13,8 @@ func _ready() -> void:
 			new_row.get_node("Name").text = str(GameData.high_scores[9-n].name)
 			new_row.get_node("Score").text = str(GameData.high_scores[9-n].score)
 		$CenterContainer/VBoxContainer/Header.add_sibling(new_row)
+	
+	$CenterContainer/VBoxContainer/Exit.grab_focus()
 
 
 func _on_exit_pressed() -> void:

@@ -72,6 +72,7 @@ idle_deceleration = 200.0
 vertical_speed = 400.0
 
 [node name="HP Node" parent="." instance=ExtResource("2_4hw7j")]
+HP = 1
 
 [node name="Shot Limit" type="Timer" parent="."]
 wait_time = 0.3

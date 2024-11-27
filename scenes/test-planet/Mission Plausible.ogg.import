@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dlr72vamsik1o"
+path="res://.godot/imported/Mission Plausible.ogg-ed8f2ee0aa8bd121d48cf565e4db473d.oggvorbisstr"
+
+[deps]
+
+source_file="res://scenes/test-planet/Mission Plausible.ogg"
+dest_files=["res://.godot/imported/Mission Plausible.ogg-ed8f2ee0aa8bd121d48cf565e4db473d.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
