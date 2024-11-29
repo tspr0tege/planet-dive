@@ -66,22 +66,22 @@ func load_overlay(scene_name: String) -> void:
 func _on_main_menu_button_pressed(button_name) -> void:
 	match button_name:
 		"Start Game":
-			print("Start game signal received by Launcher")
 			goto_scene("TEST_PLANET")
 		"High Scores":
-			print("High Scores signal received in launcher")
 			goto_scene("HIGH_SCORES")
 		"Quit":
-			print("Quit signal received by launcher")
 			get_tree().quit()
 		_:
 			print("No match case found in _on_main_menu_button_pressed for button_name: " + str(button_name))
 
 
 func _on_player_death() -> void:
+	
 	if GameData.player_lives > 0:
-		goto_scene("TEST_PLANET")
+		await get_tree().create_timer(3).timeout
+		call_deferred("goto_scene", "TEST_PLANET")
 	else:
+		await get_tree().create_timer(3).timeout
 		load_overlay("GAME_OVER")
 
 
@@ -90,10 +90,8 @@ func _on_game_over_overlay_button_pressed(button_name) -> void:
 	GameData.player_lives = 3
 	
 	if button_name == "restart":
-		print("Restart game signal recieved by Launcher")
 		goto_scene("TEST_PLANET")
-	elif button_name == "quit": 
-		print("Quit game signal received by Launcher")
+	elif button_name == "quit":
 		goto_scene("MAIN_MENU")
 	else:
 		print("Unrecognizable value received in button_name of game over button pressed. Received: " + str(button_name))
@@ -101,7 +99,6 @@ func _on_game_over_overlay_button_pressed(button_name) -> void:
 
 func _on_player_paused() -> void:
 	get_tree().paused = true
-	print("Pause signal received at the Launcher")
 	load_overlay("PAUSE_MENU")
 
 

@@ -13,6 +13,7 @@ signal player_died
 signal player_paused
 
 const projectile = preload("res://entities/player/projectiles/projectile.tscn")
+const DEATHNODE = preload("res://entities/player/deathnode.tscn")
 
 enum State { IDLE, ACCELERATING, STOPPED }
 var current_state: State = State.IDLE
@@ -102,11 +103,29 @@ func _handle_damage():
 	
 
 func _handle_death():
-	get_tree().paused = true
+	var planet = get_parent()
+	var enemies = get_tree().get_nodes_in_group("Weiners")
+	
+	planet.call_deferred("set_process_mode", ProcessMode.PROCESS_MODE_DISABLED)
+	for unit in enemies:
+		unit.call_deferred("set_process_mode", ProcessMode.PROCESS_MODE_DISABLED)
+		
+	
+	var death_explosion = DEATHNODE.instantiate()
+	var process_material = death_explosion.get_node("Shrapnel").process_material
+	
+	process_material.spread = 180 - (135 * (velocity.length() / 500))
+	process_material.direction = Vector3(velocity.x, velocity.y, 0)
+	process_material.initial_velocity = Vector2((velocity.length() / 3) - 50, velocity.length() / 3)
+	death_explosion.position = global_position
+	planet.call_deferred("add_child", death_explosion)
+	
+	$AnimatedSprite2D.visible = false
 	GameData.player_lives -= 1
 	%Lives.get_children()[-1].queue_free()
 	player_died.emit()
-	print("💀")
+	#print("💀")
+	process_mode = ProcessMode.PROCESS_MODE_DISABLED
 	
 
 func _on_pickup_area_area_entered(area: Area2D) -> void:

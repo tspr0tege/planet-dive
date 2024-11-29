@@ -25,7 +25,6 @@ func collect_to(entity) -> void:
 	fly_to_target = entity
 
 func collect_resource() -> void:
-	#print(str(point_value) + " resource points collected")
 	points_collected.emit(point_value)
 	var sound = $AudioStreamPlayer.duplicate()
 	get_parent().add_child(sound)

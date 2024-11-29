@@ -22,7 +22,5 @@ func _on_body_entered(body: Node2D) -> void:
 	
 	if body.has_node("HP Node"):
 		body.get_node("HP Node").change_HP_by(-1)
-	else:
-		print("Body %s has no HP Node." % body.name)
 	
 	queue_free()

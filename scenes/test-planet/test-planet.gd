@@ -43,8 +43,6 @@ func _physics_process(_delta: float) -> void:
 			new_enemy_unit.connect("tree_exited", _on_enemy_removed.bind(0))
 			
 			add_child(new_enemy_unit)
-		else:
-			print("TileMapLayer not found by ray cast collider.")
 			
 		spawning_turret = false
 	
@@ -87,3 +85,8 @@ func _on_player_player_died() -> void:
 
 func _on_player_paused() -> void:
 	player_paused.emit()
+
+
+func _on_bgm_finished() -> void:
+	if $BGM.playing == false:
+		$BGM.play()
