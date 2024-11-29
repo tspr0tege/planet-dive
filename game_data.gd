@@ -28,9 +28,12 @@ func _ready() -> void:
 		var console = JavaScriptBridge.get_interface("console")
 		var localStorage = JavaScriptBridge.get_interface("localStorage")
 		
-		var browser_high_scores = localStorage.getItem("high_scores")
+		var browser_high_scores = JSON.parse_string(localStorage.getItem("high_scores"))
+		console.log("Browser high score: ", browser_high_scores)
 		
-		console.log(browser_high_scores)
+		for entry in browser_high_scores:
+			high_scores.push_back(entry)
+		
 
 func _handle_points_collected(points) -> void:
 	player_score += points
@@ -56,7 +59,7 @@ func add_new_high_score(player_name: String) -> void:
 		high_score_save_file.store_var(high_scores.slice(0, 10))
 		high_score_save_file.close()
 	elif running_on == "Web":
-		var localStorage = JavaScriptBridge.get_interface("localStorage")		
+		var localStorage = JavaScriptBridge.get_interface("localStorage")
 		localStorage.setItem("high_scores", JSON.stringify(high_scores))
 	else:
 		print("Unable to save high scores. OS not recognized")
