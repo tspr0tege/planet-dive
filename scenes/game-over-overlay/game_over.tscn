@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dxhtmfvxexidj"]
 
-[ext_resource type="Script" path="res://scenes/game-over-overlay/game_over.gd" id="1_v08l7"]
+[ext_resource type="Script" path="res://scenes/game-over-overlay/scene-game_over.gd" id="1_v08l7"]
 
 [node name="Game Over" type="Control"]
 layout_mode = 3
@@ -42,7 +42,7 @@ theme_override_font_sizes/font_size = 50
 text = "GAME OVER"
 horizontal_alignment = 1
 
-[node name="High Score Entry Box" type="MarginContainer" parent="CenterContainer/VBoxContainer"]
+[node name="HighScoreEntryContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/margin_left = 10
@@ -50,20 +50,20 @@ theme_override_constants/margin_top = 30
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 30
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/High Score Entry Box"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HighScoreEntryContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/High Score Entry Box/VBoxContainer"]
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/HighScoreEntryContainer/VBoxContainer"]
 layout_mode = 2
 text = "New High Score!"
 
-[node name="High Score Input" type="HBoxContainer" parent="CenterContainer/VBoxContainer/High Score Entry Box/VBoxContainer"]
+[node name="HighScoreInput" type="HBoxContainer" parent="CenterContainer/VBoxContainer/HighScoreEntryContainer/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(400, 40)
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="LineEdit" type="LineEdit" parent="CenterContainer/VBoxContainer/High Score Entry Box/VBoxContainer/High Score Input"]
+[node name="LineEdit" type="LineEdit" parent="CenterContainer/VBoxContainer/HighScoreEntryContainer/VBoxContainer/HighScoreInput"]
 layout_mode = 2
 size_flags_horizontal = 3
 focus_neighbor_right = NodePath("../SubmitButton")
@@ -73,7 +73,7 @@ focus_previous = NodePath("../../../../MarginContainer2/HBoxContainer/Quit")
 placeholder_text = "Enter your name"
 max_length = 10
 
-[node name="SubmitButton" type="Button" parent="CenterContainer/VBoxContainer/High Score Entry Box/VBoxContainer/High Score Input"]
+[node name="SubmitButton" type="Button" parent="CenterContainer/VBoxContainer/HighScoreEntryContainer/VBoxContainer/HighScoreInput"]
 custom_minimum_size = Vector2(110, 0)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -101,29 +101,29 @@ theme_override_constants/separation = 10
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-focus_neighbor_left = NodePath("../../../High Score Entry Box/VBoxContainer/High Score Input/SubmitButton")
-focus_neighbor_top = NodePath("../../../High Score Entry Box/VBoxContainer/High Score Input/LineEdit")
+focus_neighbor_left = NodePath("../../../HighScoreEntryContainer/VBoxContainer/HighScoreInput/SubmitButton")
+focus_neighbor_top = NodePath("../../../HighScoreEntryContainer/VBoxContainer/HighScoreInput/LineEdit")
 focus_neighbor_right = NodePath("../Quit")
 focus_next = NodePath("../Quit")
-focus_previous = NodePath("../../../High Score Entry Box/VBoxContainer/High Score Input/SubmitButton")
+focus_previous = NodePath("../../../HighScoreEntryContainer/VBoxContainer/HighScoreInput/SubmitButton")
 text = "RESTART"
 
 [node name="Quit" type="Button" parent="CenterContainer/VBoxContainer/MarginContainer2/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 focus_neighbor_left = NodePath("../Restart")
-focus_neighbor_top = NodePath("../../../High Score Entry Box/VBoxContainer/High Score Input/SubmitButton")
-focus_next = NodePath("../../../High Score Entry Box/VBoxContainer/High Score Input/LineEdit")
+focus_neighbor_top = NodePath("../../../HighScoreEntryContainer/VBoxContainer/HighScoreInput/SubmitButton")
+focus_next = NodePath("../../../HighScoreEntryContainer/VBoxContainer/HighScoreInput/LineEdit")
 focus_previous = NodePath("../Restart")
 text = "QUIT"
 
-[node name="First Input Delay" type="Timer" parent="."]
+[node name="FirstInputDelay" type="Timer" parent="."]
 one_shot = true
 autostart = true
 
-[connection signal="text_changed" from="CenterContainer/VBoxContainer/High Score Entry Box/VBoxContainer/High Score Input/LineEdit" to="." method="_on_name_changed"]
-[connection signal="text_submitted" from="CenterContainer/VBoxContainer/High Score Entry Box/VBoxContainer/High Score Input/LineEdit" to="." method="_on_input_text_submitted"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/High Score Entry Box/VBoxContainer/High Score Input/SubmitButton" to="." method="_on_submit_button_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/MarginContainer2/HBoxContainer/Restart" to="." method="_on_restart_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/MarginContainer2/HBoxContainer/Quit" to="." method="_on_quit_pressed"]
-[connection signal="timeout" from="First Input Delay" to="." method="_on_first_input_delay_timeout"]
+[connection signal="text_changed" from="CenterContainer/VBoxContainer/HighScoreEntryContainer/VBoxContainer/HighScoreInput/LineEdit" to="." method="_on_name_changed"]
+[connection signal="text_submitted" from="CenterContainer/VBoxContainer/HighScoreEntryContainer/VBoxContainer/HighScoreInput/LineEdit" to="." method="_on_input_text_submitted"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/HighScoreEntryContainer/VBoxContainer/HighScoreInput/SubmitButton" to="." method="_on_submit_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/MarginContainer2/HBoxContainer/Restart" to="." method="_on_close_game_over" binds= ["Restart"]]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/MarginContainer2/HBoxContainer/Quit" to="." method="_on_close_game_over" binds= ["Quit"]]
+[connection signal="timeout" from="FirstInputDelay" to="." method="_on_first_input_delay_timeout"]

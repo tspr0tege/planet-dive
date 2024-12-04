@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://ck6x6fu6aop28"]
 
-[ext_resource type="Script" path="res://entities/player/projectiles/projectile.gd" id="1_xbb6f"]
+[ext_resource type="Script" path="res://entities/player/projectiles/player-projectile.gd" id="1_xbb6f"]
 [ext_resource type="Texture2D" uid="uid://beovb6fkujftm" path="res://entities/player/projectiles/projectiles.png" id="2_ejwme"]
 [ext_resource type="AudioStream" uid="uid://bkwtj8icb8qck" path="res://entities/player/projectiles/custon pew.wav" id="3_vvyak"]
 

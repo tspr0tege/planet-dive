@@ -6,8 +6,6 @@ signal zero_hp
 signal damage_received
 signal healing_received
 
-@onready var ENTITY: Node2D = get_parent()
-
 func change_HP_by(amount) -> void:
 	HP += amount
 	

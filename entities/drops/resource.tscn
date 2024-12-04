@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://bixtwii75tovs"]
 
-[ext_resource type="Script" path="res://common/scripts/pickups.gd" id="1_3vy0k"]
+[ext_resource type="Script" path="res://entities/drops/pickups.gd" id="1_3vy0k"]
 [ext_resource type="Texture2D" uid="uid://cxo8fibneuobv" path="res://entities/drops/Sparkle.png" id="2_oevac"]
 [ext_resource type="AudioStream" uid="uid://dp8l766mksd7y" path="res://entities/drops/503459__matrixxx__powerup-02.wav" id="3_bd411"]
 
@@ -69,13 +69,7 @@ modulate = Color(0.380392, 0.890196, 1, 1)
 sprite_frames = SubResource("SpriteFrames_h43s2")
 autoplay = "default"
 
-[node name="Debug Label" type="Label" parent="."]
-visible = false
-offset_right = 40.0
-offset_bottom = 21.0
-text = "debug"
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_bd411")
 volume_db = -25.0
 pitch_scale = 0.6

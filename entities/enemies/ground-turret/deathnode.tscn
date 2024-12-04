@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://dr07dmtxmw67s"]
 
-[ext_resource type="Script" path="res://entities/enemies/ground-turret/deathnode.gd" id="1_7trda"]
+[ext_resource type="Script" path="res://entities/enemies/ground-turret/enemy-ground_turret-deathnode.gd" id="1_7trda"]
 [ext_resource type="Texture2D" uid="uid://bj7o2sdnnlyif" path="res://entities/enemies/explosion.png" id="2_edn64"]
 [ext_resource type="AudioStream" uid="uid://bsvfyx2rxv26k" path="res://entities/enemies/ground-turret/explosionCrunch_000.ogg" id="3_1usmh"]
 

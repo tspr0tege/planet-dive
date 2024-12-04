@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://bg6gqtfwi8ggf"]
 
-[ext_resource type="Script" path="res://entities/player/deathnode.gd" id="1_1ecbb"]
+[ext_resource type="Script" path="res://entities/player/player-deathnode.gd" id="1_1ecbb"]
 [ext_resource type="Texture2D" uid="uid://bj7o2sdnnlyif" path="res://entities/enemies/explosion.png" id="2_o35hb"]
 [ext_resource type="AudioStream" uid="uid://bwx0keiygdtyj" path="res://entities/player/explosion1.ogg" id="3_xw73m"]
 

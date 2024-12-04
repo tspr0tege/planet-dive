@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Planet Dive"
-run/main_scene="res://scenes/launcher/launcher.tscn"
+run/main_scene="res://common/launcher/launcher.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
 config/icon="res://icon.svg"
 
@@ -21,8 +21,9 @@ general/2d_panning_strength=1.0
 
 [autoload]
 
-GameData="*res://game_data.gd"
-AudioStreamBus="*res://audio_stream_bus.gd"
+GameData="*res://common/scripts/AL-game_data.gd"
+AudioStreamBus="*res://common/scripts/AL-audio_stream_bus.gd"
+UniversalReference="*res://common/scripts/AL-universal_reference.gd"
 
 [global_group]
 

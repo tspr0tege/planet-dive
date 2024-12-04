@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bnbf5i64vc62f"]
 
-[ext_resource type="Script" path="res://scenes/high-scores/high_scores.gd" id="1_7qn14"]
+[ext_resource type="Script" path="res://scenes/high-scores/scene-high_scores.gd" id="1_7qn14"]
 [ext_resource type="Texture2D" uid="uid://cunvcle84bhl6" path="res://common/backgrounds/Starfield_05-1024x1024.png" id="1_fy3ea"]
 
 [node name="High Scores" type="Control"]

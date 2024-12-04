@@ -1,6 +1,6 @@
 [gd_scene load_steps=65 format=3 uid="uid://dv45ibpt71mpj"]
 
-[ext_resource type="Script" path="res://scenes/main-menu/main_menu.gd" id="1_o7msg"]
+[ext_resource type="Script" path="res://scenes/main-menu/scene-main_menu.gd" id="1_o7msg"]
 [ext_resource type="Texture2D" uid="uid://cunvcle84bhl6" path="res://common/backgrounds/Starfield_05-1024x1024.png" id="1_srqwa"]
 [ext_resource type="Texture2D" uid="uid://dubykvd1so00g" path="res://scenes/main-menu/spritesheet 01.png" id="4_hhcr3"]
 

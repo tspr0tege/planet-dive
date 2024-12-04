@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dtnksonoy2t41"]
 
-[ext_resource type="Script" path="res://entities/enemies/ground-turret/turret_bullet.gd" id="1_26q64"]
+[ext_resource type="Script" path="res://entities/enemies/ground-turret/enemy-ground_turret-bullet.gd" id="1_26q64"]
 [ext_resource type="AudioStream" uid="uid://dcpgg7sbfx7i7" path="res://entities/enemies/ground-turret/laserSmall_004.ogg" id="2_or286"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6fm7k"]

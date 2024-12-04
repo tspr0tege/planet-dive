@@ -1,19 +1,16 @@
 extends CharacterBody2D
 
 @onready var screen_size = get_viewport_rect().size
-@onready var max_camera_offset = (screen_size.x / 2) * .75
 
-@export var camera: Camera2D
 @export var max_speed: float = 600
 @export var acceleration: float = 1000
 @export var idle_deceleration: float = 50
 @export var vertical_speed: float = 500
 
 signal player_died
-signal player_paused
 
 const projectile = preload("res://entities/player/projectiles/projectile.tscn")
-const DEATHNODE = preload("res://entities/player/deathnode.tscn")
+const deathnode = preload("res://entities/player/deathnode.tscn")
 
 enum State { IDLE, ACCELERATING, STOPPED }
 var current_state: State = State.IDLE
@@ -21,17 +18,20 @@ var current_speed: float = 0
 var direction: Vector2 = Vector2.ZERO
 var projectile_direction: int = 1
 var shot_available: bool = true
+var speed_percent
+
+
+func _ready() -> void:
+	UniversalReference.PLAYER = self
+	
 
 func _physics_process(delta: float) -> void:
-	if Input.is_action_just_pressed("Start Button"):
-		player_paused.emit()
 	
 	update_state()
 	
 	velocity = Vector2(current_speed, direction.y * vertical_speed)
 	
-	var speed_percent = floor((current_speed / max_speed) * 100) / 100
-	camera.offset.x = lerp(camera.offset.x, floor((max_camera_offset / camera.zoom.x) * speed_percent), GameData.camera_speed / 100)
+	speed_percent = floor((current_speed / max_speed) * 100) / 100
 	
 	if direction.x < 0 and not $AnimatedSprite2D.flip_h:
 		$AnimatedSprite2D.flip_h = true
@@ -49,12 +49,10 @@ func _physics_process(delta: float) -> void:
 	
 	if shot_available and Input.is_action_pressed("Button Pad South"):
 		shot_available = false
-		$"Shot Limit".start()
+		$ShotLimit.start()
 		
-		var NEW_PROJECTILE = projectile.instantiate()
-		NEW_PROJECTILE.position = self.position + Vector2(20 * projectile_direction, 0)
-		NEW_PROJECTILE.SPEED *= projectile_direction
-		$"..".add_child(NEW_PROJECTILE)
+		var projectile_spawn = self.position + Vector2(20 * projectile_direction, 0)
+		UniversalReference.spawn(projectile, projectile_spawn)
 
 	match current_state:
 		State.IDLE:
@@ -70,7 +68,8 @@ func _physics_process(delta: float) -> void:
 
 func update_state() -> void:
 	# Check for directional input
-	direction = Vector2( Input.get_axis("ui_left", "ui_right"), Input.get_axis("ui_up", "ui_down"))
+	direction.x = Input.get_axis("ui_left", "ui_right")
+	direction.y = Input.get_axis("ui_up", "ui_down")
 	
 	if direction.x != 0:
 		current_state = State.ACCELERATING
@@ -103,34 +102,24 @@ func _handle_damage():
 	
 
 func _handle_death():
-	var planet = get_parent()
-	var enemies = get_tree().get_nodes_in_group("Weiners")
-	
-	planet.call_deferred("set_process_mode", ProcessMode.PROCESS_MODE_DISABLED)
-	for unit in enemies:
-		unit.call_deferred("set_process_mode", ProcessMode.PROCESS_MODE_DISABLED)
-		
-	
-	var death_explosion = DEATHNODE.instantiate()
-	var process_material = death_explosion.get_node("Shrapnel").process_material
-	
+	var death_explosion = UniversalReference.spawn(deathnode, self.global_position)
+	var process_material = death_explosion.get_node("Shrapnel").process_material	
 	process_material.spread = 180 - (135 * (velocity.length() / 500))
 	process_material.direction = Vector3(velocity.x, velocity.y, 0)
 	process_material.initial_velocity = Vector2((velocity.length() / 3) - 50, velocity.length() / 3)
-	death_explosion.position = global_position
-	planet.call_deferred("add_child", death_explosion)
 	
 	$AnimatedSprite2D.visible = false
-	GameData.player_lives -= 1
-	%Lives.get_children()[-1].queue_free()
 	player_died.emit()
-	#print("💀")
+	#print("💀")	
 	process_mode = ProcessMode.PROCESS_MODE_DISABLED
 	
 
-func _on_pickup_area_area_entered(area: Area2D) -> void:
-	if area.is_in_group("Pickups"):
-		area.collect_to($".")
+func _on_pickup_area_area_entered(item: Area2D) -> void:
+	if item.is_in_group("Pickups"):
+		if item.has_method("collect"):
+			item.collect()
+		else:
+			print("Pickup found without collect() method.")
 	
 
 func _on_shot_limit_timeout() -> void:
